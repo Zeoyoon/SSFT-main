@@ -100,15 +100,15 @@ def compute_contra_memobank_loss(
     valid_classes = []
     new_keys = []
     for i in range(num_segments):
-        low_valid_pixel_seg = low_valid_pixel[:, i]    # select binary mask for i-th class  # 高置信度，i类别
-        high_valid_pixel_seg = high_valid_pixel[:, i]  # 低置信度（高熵），i类
+        low_valid_pixel_seg = low_valid_pixel[:, i]    # select binary mask for i-th class 
+        high_valid_pixel_seg = high_valid_pixel[:, i] 
 
-        prob_seg = prob[:, i, :, :]   # 归属于 i 类的概率
-        rep_mask_low_entropy = (      # 大概率归属于i的
-            prob_seg > current_class_threshold   # (正样本)该类别的概率要高于threshold
+        prob_seg = prob[:, i, :, :]   
+        rep_mask_low_entropy = (      
+            prob_seg > current_class_threshold   
         ) * low_valid_pixel_seg.bool()
-        rep_mask_high_entropy = (     # 不确定是不是属于i的
-            prob_seg < current_class_negative_threshold   # (负正样本)该类别的概率要低于threshold
+        rep_mask_high_entropy = (    
+            prob_seg < current_class_negative_threshold  
         ) * high_valid_pixel_seg.bool()
 
         seg_feat_all_list.append(rep[low_valid_pixel_seg.bool()])
@@ -141,7 +141,7 @@ def compute_contra_memobank_loss(
         )
         
         
-        negative_mask = rep_mask_high_entropy * class_mask   # 作为这个class下的negative sample
+        negative_mask = rep_mask_high_entropy * class_mask  
 
         keys = rep_teacher[negative_mask].detach()
         new_keys.append(
@@ -225,7 +225,7 @@ def compute_contra_memobank_loss(
                     (positive_feat, negative_feat), dim=1
                 )  # shape: (num_queries, 1 + num_negative, num_feat)  # 
 
-            seg_logits = torch.cosine_similarity(  # anchor_feat和all_feat的相似度应该接近0
+            seg_logits = torch.cosine_similarity(  # similiarity of anchor_feat & all_feat ---> 0
                 anchor_feat.unsqueeze(1), all_feat, dim=2
             )
 
