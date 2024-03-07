@@ -1,0 +1,26 @@
+trainer: # Required.
+  epochs: 100
+  eval_on: True
+  supervised:
+    sup_only_epoch: 0
+    loss_type: CrossEntropy   # Combo
+  unsupervised:
+    TTA: False
+    drop_percent: 80
+  contrastive:
+    anchor_ema: False
+    low_rank: 2   
+    high_rank: 4   
+    negative_high_entropy: True
+    current_class_threshold: 0.3  
+    current_class_negative_threshold: 1
+    low_entropy_threshold: 20
+    num_negatives: 50
+    num_queries: 256
+    temperature: 0.5
+    loss_weight: 0.01
+
+net: # Required.
+  num_classes: 5
+  sync_bn: True
+  ema_decay: 0.99
