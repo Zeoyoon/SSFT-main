@@ -453,8 +453,8 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = '1,0'
     cudnn.benchmark = True
 
-    batch_size = 5
-    batch_size_unlabel = 5
+    batch_size = 8
+    batch_size_unlabel = 8
     val_batch_size = 5
     
     snapshot_name = 'res50_cls_cce_{}_tuned_{}'.format(seed, disaster)
